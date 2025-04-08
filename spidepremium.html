@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SPIDEPREMIUM</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f4;
+    }
+
+    /* Warna tema Spider-Man */
+    :root {
+      --merah: #e50914;
+      --biru: #1e3a8a;
+      --hitam: #1c1c1c;
+      --abu: #f5f5f5;
+    }
+
+    /* Loader */
+    #loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .loader-icon {
+      border: 6px solid #ddd;
+      border-top: 6px solid var(--merah);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--hitam);
+      padding: 15px 20px;
+      color: white;
+    }
+    .logo { font-size: 22px; font-weight: bold; color: var(--merah); }
+    .menu-icon { font-size: 26px; cursor: pointer; }
+
+    nav {
+      display: none;
+      flex-direction: column;
+      background: white;
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      z-index: 10;
+    }
+    nav a {
+      padding: 12px 20px;
+      text-decoration: none;
+      color: var(--hitam);
+      border-bottom: 1px solid #eee;
+    }
+    nav a:hover { background: var(--abu); }
+
+    .section {
+      display: none;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .show { display: block !important; }
+
+    /* Efek Komik Spider-Man */
+    @keyframes komikIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.8) rotate(-3deg);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    #muka.show {
+      animation: komikIn 0.9s ease-out forwards;
+    }
+
+    h1, h2, h3 {
+      color: var(--biru);
+      margin-bottom: 15px;
+    }
+
+    .hero img {
+      width: 200px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    button {
+      padding: 10px 20px;
+      background: var(--merah);
+      border: none;
+      color: white;
+      border-radius: 6px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    .form-group {
+      margin: 20px 0;
+    }
+    input, select {
+      padding: 10px;
+      width: 80%;
+      max-width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px) scale(1.03);
+    }
+
+    .card img {
+      width: 60px;
+      margin-bottom: 10px;
+    }
+
+    .testimoni {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 15px 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .dashboard {
+      font-size: 18px;
+      color: var(--hitam);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loader -->
+<div id="loader">
+  <div class="loader-icon"></div>
+</div>
+
+<!-- Header -->
+<div class="header">
+  <div class="logo">SPIDEPREMIUM</div>
+  <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+</div>
+
+<!-- Navigation -->
+<nav id="navMenu">
+  <a href="#" onclick="showSection('muka')">Halaman Muka</a>
+  <a href="#" onclick="showSection('daftar')">Daftar</a>
+  <a href="#" onclick="showSection('home')">Home</a>
+  <a href="#" onclick="showSection('katalog')">Katalog</a>
+  <a href="#" onclick="showSection('harga')">Harga</a>
+  <a href="#" onclick="showSection('beli')">Pesan</a>
+  <a href="#" onclick="showSection('testimoni')">Testimoni</a>
+  <a href="#" onclick="logout()">Logout</a>
+</nav>
+
+<!-- HALAMAN MUKA -->
+<div id="muka" class="section show hero">
+  <img src="https://cdn-icons-png.flaticon.com/512/5953/5953767.png" alt="Aplikasi Premium" />
+  <h1>Jual Berbagai Aplikasi Premium</h1>
+  <p>Dapatkan akses resmi ke Spotify, Netflix, Canva, YouTube Premium, dan lainnya.</p>
+  <button onclick="showSection('daftar')">Langganan Sekarang</button>
+  <div style="margin-top: 30px;">
+    <h3>Mengapa Pilih Kami?</h3>
+    <ul style="list-style: none; color: #444;">
+      <li>- Harga Terjangkau & Layanan Cepat</li>
+      <li>- Garansi Akses Premium</li>
+      <li>- Support 24 Jam via WhatsApp & Telegram</li>
+    </ul>
+  </div>
+  <div style="margin-top: 30px;">
+    <h3>Kontak Kami:</h3>
+    <p>
+      <a href="https://wa.me/62882258309900" target="_blank">WhatsApp</a> | 
+      <a href="https://t.me/siilkthread" target="_blank">Telegram</a> | 
+      <a href="https://x.com/loziesie" target="_blank">Twitter</a>
+    </p>
+  </div>
+</div>
+
+<!-- FORM DAFTAR -->
+<div id="daftar" class="section">
+  <h2>Formulir Pendaftaran</h2>
+  <div class="form-group">
+    <input type="text" id="username" placeholder="Nama pengguna" />
+  </div>
+  <div class="form-group">
+    <input type="password" id="password" placeholder="Kata sandi" />
+  </div>
+  <button onclick="register()">Daftar</button>
+</div>
+
+<!-- HOME -->
+<div id="home" class="section">
+  <h2>Dashboard</h2>
+  <p class="dashboard" id="welcomeText">Selamat datang!</p>
+  <button onclick="logout()">Logout</button>
+</div>
+
+<!-- KATALOG -->
+<div id="katalog" class="section">
+  <h2>Katalog Aplikasi</h2>
+  <div class="card-grid">
+    <div class="card"><img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg"><p>Spotify Premium</p></div>
+    <div class="card"><img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_(2017).svg"><p>YouTube Premium</p></div>
+    <div class="card"><img src="https://cdn.iconscout.com/icon/free/png-256/canva-1869030-1583155.png"><p>Canva Pro</p></div>
+    <div class="card"><img src="https://upload.wikimedia.org/wikipedia/commons/1/17/Viu_logo.svg"><p>Viu Premium</p></div>
+    <div class="card"><img src="https://seeklogo.com/images/C/capcut-logo-3E2292C84A-seeklogo.com.png"><p>CapCut Pro</p></div>
+  </div>
+</div>
+
+<!-- HARGA -->
+<div id="harga" class="section">
+  <h2>Daftar Harga</h2>
+  <div class="card-grid">
+    <div class="card"><h3>Spotify</h3><p>Rp 15.000 / bulan</p></div>
+    <div class="card"><h3>YouTube</h3><p>Rp 30.000 / bulan</p></div>
+    <div class="card"><h3>Canva Pro</h3><p>Rp 20.000 / bulan</p></div>
+    <div class="card"><h3>Viu</h3><p>Rp 18.000 / bulan</p></div>
+    <div class="card"><h3>CapCut</h3><p>Rp 10.000 / bulan</p></div>
+  </div>
+</div>
+
+<!-- FORM PEMBELIAN -->
+<div id="beli" class="section">
+  <h2>Format Pemesanan</h2>
+  <div class="form-group">
+    <input type="text" id="namaPembeli" placeholder="Nama Anda">
+  </div>
+  <div class="form-group">
+    <select id="pilihanApp">
+      <option value="">Pilih Aplikasi</option>
+      <option value="Spotify Premium">Spotify Premium</option>
+      <option value="YouTube Premium">YouTube Premium</option>
+      <option value="Canva Pro">Canva Pro</option>
+      <option value="Viu Premium">Viu Premium</option>
+      <option value="CapCut Pro">CapCut Pro</option>
+    </select>
+  </div>
+  <button onclick="kirimPesanan()">Kirim via WhatsApp</button>
+  <button onclick="kirimTelegram()">Kirim via Telegram</button>
+</div>
+
+<!-- TESTIMONI -->
+<div id="testimoni" class="section">
+  <h2>Testimoni Pelanggan</h2>
+  <div class="testimoni">
+    <p>"Langganan Spotify disini cepet banget prosesnya! Recommended seller!"</p>
+    <strong>- Lee Jeno.</strong>
+  </div>
+  <div class="testimoni">
+    <p>"Canva Pro jadi murah meriah! Fix langganan terus!"</p>
+    <strong>- Na Jaemin</strong>
+  </div>
+  <div class="testimoni">
+    <p>"Support responsif dan akun langsung aktif. Thanks bro!"</p>
+    <strong>- Member Enha.</strong>
+  </div>
+</div>
+
+<script>
+  // Loader hilang setelah load
+  window.addEventListener("load", () => {
+    document.getElementById("loader").style.display = "none";
+  });
+
+  function toggleMenu() {
+    const menu = document.getElementById("navMenu");
+    menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+  }
+
+  function showSection(id) {
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(sec => sec.classList.remove('show'));
+    document.getElementById(id).classList.add('show');
+    toggleMenu();
+  }
+
+  function register() {
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+
+    if (user && pass) {
+      localStorage.setItem("user", user);
+      document.getElementById("welcomeText").innerText = `Selamat datang, ${user}!`;
+      showSection('home');
+    } else {
+      alert("Isi semua data dengan benar.");
+    }
+  }
+
+  function logout() {
+    localStorage.removeItem("user");
+    showSection('muka');
+  }
+
+  function kirimPesanan() {
+    const nama = document.getElementById("namaPembeli").value;
+    const app = document.getElementById("pilihanApp").value;
+
+    if (!nama || !app) {
+      alert("Mohon isi nama dan pilih aplikasi.");
+      return;
+    }
+
+    const pesan = `Halo Admin, saya ingin pesan ${app} atas nama ${nama}.`;
+    window.open(`https://wa.me/62882258309900?text=${encodeURIComponent(pesan)}`, "_blank");
+  }
+
+  function kirimTelegram() {
+    const nama = document.getElementById("namaPembeli").value;
+    const app = document.getElementById("pilihanApp").value;
+
+    if (!nama || !app) {
+      alert("Mohon isi nama dan pilih aplikasi.");
+      return;
+    }
+
+    const pesan = `Halo Admin, saya ingin pesan ${app} atas nama ${nama}.`;
+    window.open(`https://t.me/share/url?url=&text=${encodeURIComponent(pesan)}`, "_blank");
+  }
+</script>
+</body>
+</html>
